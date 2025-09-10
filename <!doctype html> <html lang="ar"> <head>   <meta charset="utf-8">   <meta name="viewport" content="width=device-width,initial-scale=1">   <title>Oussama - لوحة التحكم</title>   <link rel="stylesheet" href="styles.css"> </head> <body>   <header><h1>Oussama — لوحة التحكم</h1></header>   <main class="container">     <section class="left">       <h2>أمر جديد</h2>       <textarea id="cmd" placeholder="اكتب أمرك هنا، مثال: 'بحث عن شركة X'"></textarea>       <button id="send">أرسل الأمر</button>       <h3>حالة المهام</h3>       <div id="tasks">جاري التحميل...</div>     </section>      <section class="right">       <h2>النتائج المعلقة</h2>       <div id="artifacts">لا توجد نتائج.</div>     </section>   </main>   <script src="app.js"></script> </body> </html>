@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Oussama - لوحة التحكم</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header><h1>Oussama — لوحة التحكم</h1></header>
+  <main class="container">
+    <section class="left">
+      <h2>أمر جديد</h2>
+      <textarea id="cmd" placeholder="اكتب أمرك هنا، مثال: 'بحث عن شركة X'"></textarea>
+      <button id="send">أرسل الأمر</button>
+      <h3>حالة المهام</h3>
+      <div id="tasks">جاري التحميل...</div>
+    </section>
+
+    <section class="right">
+      <h2>النتائج المعلقة</h2>
+      <div id="artifacts">لا توجد نتائج.</div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
