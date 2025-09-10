@@ -1,0 +1,40 @@
+// frontend/app.js
+async function fetchTasks(){
+  const res = await fetch('/api/tasks');
+  const data = await res.json();
+  const el = document.getElementById('tasks');
+  if(!data || (!data.pending && !data.done)) return el.innerText = 'خطأ في جلب البيانات';
+  el.innerHTML = `
+    <p>قيد الانتظار: ${data.pending.length}</p>
+    <p>المنفذة: ${data.done.length}</p>
+  `;
+}
+
+async function fetchArtifacts(){
+  const res = await fetch('/api/pending_artifacts');
+  const data = await res.json();
+  const el = document.getElementById('artifacts');
+  if(!data || data.length===0) return el.innerText = 'لا توجد نتائج.';
+  el.innerHTML = data.map(d=>`
+    <div class="artifact">
+      <h4>${d.task}</h4>
+      <p>${d.result}</p>
+      <small>${d.timestamp}</small>
+    </div>
+  `).join('');
+}
+
+document.getElementById('send').addEventListener('click', async ()=>{
+  const cmd = document.getElementById('cmd').value.trim();
+  if(!cmd) return alert('اكتب أمرًا أولًا');
+  await fetch('/api/tasks', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({command:cmd})});
+  document.getElementById('cmd').value = '';
+  fetchTasks();
+});
+
+window.onload = ()=>{
+  fetchTasks();
+  fetchArtifacts();
+  setInterval(fetchTasks, 5000);
+  setInterval(fetchArtifacts, 7000);
+};
